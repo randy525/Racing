@@ -3,6 +3,7 @@ const score = document.querySelector('.score'),
    start = document.querySelector('.start'),
    gameArea = document.querySelector('.gameArea'),
    car = document.createElement('div');
+
 car.classList.add('car');
 
 const keys = {
@@ -15,7 +16,7 @@ const keys = {
 const setting = {
    start: false,
    score: 0,
-   speed: 5,
+   speed: 3,
    traffic: 7,
 };
 
@@ -39,7 +40,19 @@ function moveRoad() {
 function moveEnemy() { 
    let enemies = document.querySelectorAll('.enemy');
    enemies.forEach(function(item) {
-      item.y += setting.speed-1;
+      let carRect = car.getBoundingClientRect();
+      let enemyRect = item.getBoundingClientRect();
+
+      if (carRect.top <= enemyRect.bottom && 
+         carRect.left <= enemyRect.right-10 &&
+         carRect.right >= enemyRect.left+10 &&
+         carRect.bottom >= enemyRect.top) {
+            setting.start = false;
+            start.classList.remove('hide');
+            score.style.top = start.offsetHeight + 'px';
+      }
+
+      item.y += setting.speed/2;
       item.style.top = item.y + 'px';
       if (item.y >= document.documentElement.clientHeight) {
          item.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - item.offsetWidth - 30) + item.offsetWidth) + 'px';
@@ -52,12 +65,17 @@ function moveEnemy() {
 function playGame() {
    moveRoad();
    moveEnemy();
+   setting.score += Math.ceil((setting.speed+setting.traffic)/10);
+   score.textContent = 'SCORE: ' + setting.score;
+   if(setting.score % 1000 === 0) {
+      setting.speed++;
+   }
    if (setting.start) {
       if (keys.ArrowLeft && setting.x >= (setting.speed + car.offsetWidth / 2)) {
-         setting.x -= setting.speed;
+         setting.x -= setting.speed/2;
       }
       if (keys.ArrowRight  && setting.x <= (gameArea.offsetWidth - setting.speed - car.offsetWidth / 2)) {
-         setting.x += setting.speed;
+         setting.x += setting.speed/2;
       }
       if (keys.ArrowDown && setting.y < (gameArea.offsetHeight - setting.speed - car.offsetHeight)) {
          setting.y += setting.speed;
@@ -74,7 +92,12 @@ function playGame() {
 
 function startGame() {
    start.classList.add('hide');
-
+   score.style.top = 0;
+   setting.score = 0;
+   setting.speed = 3;
+   gameArea.innerHTML = '';
+   car.style.top = 'auto';
+   car.style.bottom = 10 + 'px';
    for (let i = 0; i < getQuantityElementElements(100); i++) {
       const line = document.createElement('div');
       line.classList.add('line');
@@ -92,7 +115,6 @@ function startGame() {
       enemy.style.backgroundImage = 'url(\'./images/enemy.png\')';
       gameArea.appendChild(enemy);
    }
-
    setting.start = true;
    gameArea.appendChild(car);
    setting.x = car.offsetLeft;

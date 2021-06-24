@@ -9,15 +9,14 @@ body {
 }
 
 .car, .enemy{
-   width: 75px;
-   height: 150px;
+   width: 50px;
+   height: 100px;
    background-image: url('./images/player.png');
    background-position: center;
    background-size: cover;
    background-repeat:  no-repeat;
    position: absolute;
    left: 50%;
-   bottom: 10px;
    transform: translateX(-50%);
 }
 
@@ -36,4 +35,20 @@ body {
    background: #fff;
    left: 50%;
    transform: translateX(-50%);
+}
+
+.start, .score {
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 100%;
+   margin: 0;
+   padding: 1rem 0;
+   text-align: center;
+   z-index: 100;
+   color: #FFF;
+   font-size: 1.5rem;
+   background-color: #cf4747;
+   cursor: pointer;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
