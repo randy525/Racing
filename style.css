@@ -1,12 +1,39 @@
+body {
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+}
+
 .hide {
    display: none;
 }
 
-.car {
-   width: 50px;
-   height: 100px;
+.car, .enemy{
+   width: 75px;
+   height: 150px;
    background-image: url('./images/player.png');
    background-position: center;
    background-size: cover;
    background-repeat:  no-repeat;
+   position: absolute;
+   left: 50%;
+   bottom: 10px;
+   transform: translateX(-50%);
+}
+
+.gameArea {
+   width: 300px;
+   height: 100vh;
+   position: relative;
+   margin: auto;
+   background: #222;
+}
+
+.line {
+   position: absolute;
+   width: 10px;
+   height: 50px;
+   background: #fff;
+   left: 50%;
+   transform: translateX(-50%);
 }
